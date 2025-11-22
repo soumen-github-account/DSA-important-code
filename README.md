@@ -71,4 +71,346 @@ public class Main
 }
 ```
 
+## Stack using LinkedList
 
+```java
+public class Main{
+    
+    static class Node{
+        int data;
+        Node next;
+        
+        Node(int data){
+            this.data = data;
+            this.next = null;
+        }
+    }
+    
+    static class stack{
+        public static Node head;
+        
+        public static boolean isEmpty(){
+            return head == null;
+        }
+        
+        public static void push(int data){
+            Node newNode = new Node(data);
+            if(isEmpty()){
+                head = newNode;
+                return;
+            }
+            newNode.next = head;
+            head = newNode;
+        }
+        
+        public static int pop(){
+            if(isEmpty()){
+                System.out.print("Stack is empty....");
+                return -1;
+            }
+            int top = head.data;
+            head = head.next;
+            return top;
+        }
+        
+        public static int peek(){
+            if(isEmpty()){
+                return -1;
+            }
+            return head.data;
+        }
+        
+        public static void display(){
+            if (isEmpty()) {
+                System.out.println("Stack is empty....");
+                return;
+            }
+
+            Node temp = head;
+            System.out.print("Stack: ");
+            while (temp != null) {
+                System.out.print(temp.data + " ");
+                temp = temp.next;
+            }
+            System.out.println();
+        }
+    }
+    
+    
+    public static void main(String args[]){
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+
+        stack.display();   // Output: Stack: 30 20 10
+
+        System.out.println("Peek: " + stack.peek());  // 30
+
+        System.out.println("Pop: " + stack.pop());    // 30
+
+        stack.display();   // Output: Stack: 20 10
+    }
+}
+```
+## Queue using array
+
+```java
+public class Main{
+    
+    static class Queue{
+        static int arr[];
+        static int size;
+        static int rear = -1;
+        Queue(int size){
+            arr = new int[size];
+            this.size = size;
+        }
+        
+        public static boolean isEmpty(){
+            return rear == -1;
+        }
+        
+        public static void add(int data){
+            if(rear == size-1){
+                System.out.println("Full....");
+                return;
+            }
+            rear++;
+            arr[rear] = data;
+        }
+        
+        public static int remove(){
+            if(isEmpty()){
+                System.out.print("Empty queue...");
+                return -1;
+            }
+            int front = arr[0];
+            for(int i=0; i<rear; i++){
+                arr[i] = arr[i+1];
+            }
+            rear--;
+            return front;
+        }
+        
+        public static int peek(){
+            if(isEmpty()){
+                System.out.print("Empty queue...");
+                return -1;
+            }
+            return arr[0];
+        }
+        
+        public static void display(){
+            if(isEmpty()){
+                System.out.print("Empty queue...");
+                return;
+            }
+            for(int i=0; i<=rear; i++){
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void main(String args[]){
+        Queue q = new Queue(5);
+        q.add(2);
+        q.add(3);
+        q.add(4);
+        q.add(6);
+        q.add(9);
+        q.add(4);
+        q.display();
+        int p = q.peek();
+        System.out.println("peek -> "+p);
+        int r = q.remove();
+        q.display();
+    }
+}
+
+```
+
+## Queue using LinkedList
+
+```java
+public class Main{
+    
+    static class Node{
+        int data;
+        Node next;
+        Node(int data){
+            this.data = data;
+            this.next = null;
+        }
+    }
+    
+    static class Queue{
+        static Node head = null;
+        static Node tail = null;
+        
+        public static boolean isEmpty(){
+            return head == null;
+        }
+        
+        public static void add(int data){
+            Node newNode = new Node(data);
+            if(isEmpty()){
+                tail = head = newNode;
+                return;
+            }
+            tail.next = newNode;
+            tail = newNode;
+        }
+        
+        public static int remove(){
+            if(isEmpty()){
+                System.out.println("Queue is empty...");
+                return -1;
+            }
+            int front = head.data;
+            if(head == tail){
+                tail = null;
+            }
+            head = head.next;
+            return front;
+        }
+        
+        public static int peek(){
+            if(isEmpty()){
+                System.out.println("Queue is empty...");
+                return -1;
+            }
+            int front = head.data;
+            return front;
+        }
+        
+        public static void display(){
+            if(isEmpty()){
+                System.out.println("Queue is empty...");
+                return;
+            }
+            Node temp = head;
+            while(temp != null){
+                System.out.print(temp.data + " ");
+                temp = temp.next;
+            }
+            System.out.println();
+        }
+    }
+    
+    public static void main(String args[]){
+        Queue q = new Queue();
+        q.add(5);
+        q.add(5);
+        q.add(9);
+        q.add(7);
+        
+        q.display();
+        int r = q.remove();
+        q.display();
+        int p = q.peek();
+        
+    }
+}
+```
+## Queue using Two Stack
+
+```java
+public class Main{
+    
+    static class Queue{
+        static Stack<Integer> s1 = new Stack<>();
+        static Stack<Integer> s2 = new Stack<>();
+        
+        public static boolean isEmpty(){
+            return s1.isEmpty();
+        }
+        
+        public static void add(int data){
+            while(!s1.isEmpty()){
+                s2.push(s1.pop());
+            }
+            
+            s1.push(data);
+            
+            while(!s2.isEmpty()){
+                s1.push(s2.pop());
+            }
+        }
+        
+        public static int remove(){
+            return s1.pop();
+        }
+        
+        public static int peek(){
+            return s1.peek();
+        }
+        
+    }
+    
+    public static void main(String args[]){
+        Queue q = new Queue();
+        
+        q.add(1);
+        q.add(2);
+        q.add(3);
+        
+        while(!q.isEmpty()){
+            System.out.print(q.peek() + " ");
+            q.remove();
+        }
+    }
+}
+
+```
+
+## Stack using Queue 
+
+```java
+public class Main{
+    
+    static class Stack{
+        static Queue<Integer> q1 = new LinkedList<>();
+        static Queue<Integer> q2 = new LinkedList<>();
+        
+        public static boolean isEmpty(){
+            return q1.isEmpty();
+        }
+        
+        public static void push(int data){
+            while(!q1.isEmpty()){
+                q2.add(q1.remove());
+            }
+            
+            q1.add(data);
+            
+            while(!q2.isEmpty()){
+                q1.add(q2.remove());
+            }
+        }
+        
+        public static int pop(){
+            return q1.remove();
+        }
+        
+        public static int peek(){
+            return q1.peek();
+        }
+        
+    }
+    
+    public static void main(String args[]){
+        Stack s = new Stack();
+        
+        s.push(1);
+        s.push(2);
+        s.push(3);
+        
+        while(!s.isEmpty()){
+            System.out.print(s.peek() + " ");
+            s.pop();
+        }
+    }
+}
+
+```
