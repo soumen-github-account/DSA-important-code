@@ -414,3 +414,123 @@ public class Main{
 }
 
 ```
+
+## CircularQueue using array
+```java
+public class Main {
+
+    static class CreateCircularQueue {
+        int size;
+        int front, rear;
+        int arr[];
+
+        // constructor
+        CreateCircularQueue(int size) {
+            this.size = size;
+            arr = new int[size];
+            front = -1;
+            rear = -1;
+        }
+
+        // check if queue is full
+        public boolean isFull() {
+            return (front == (rear + 1) % size);
+        }
+
+        // check if queue is empty
+        public boolean isEmpty() {
+            return (front == -1);
+        }
+
+        // insert element
+        public void enqueue(int val) {
+            if (isFull()) {
+                System.out.println("Queue is FULL!");
+                return;
+            }
+
+            rear = (rear + 1) % size;
+
+            if (front == -1) {
+                front = 0;
+            }
+
+            arr[rear] = val;
+            System.out.println(val + " inserted");
+        }
+
+        // delete element
+        public int dequeue() {
+            if (isEmpty()) {
+                System.out.println("Queue is EMPTY!");
+                return -1;
+            }
+
+            int removed = arr[front];
+
+            if (front == rear) {
+                // queue becomes empty
+                front = rear = -1;
+            } else {
+                front = (front + 1) % size;
+            }
+
+            return removed;
+        }
+
+        // peek front element
+        public int peek() {
+            if (isEmpty()) {
+                System.out.println("Queue is EMPTY!");
+                return -1;
+            }
+            return arr[front];
+        }
+
+        // display all elements
+        public void display() {
+            if (isEmpty()) {
+                System.out.println("Queue is EMPTY!");
+                return;
+            }
+
+            System.out.print("Queue: ");
+            int i = front;
+
+            while (true) {
+                System.out.print(arr[i] + " ");
+                if (i == rear)
+                    break;
+
+                i = (i + 1) % size;
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String args[]) {
+        CreateCircularQueue q = new CreateCircularQueue(5);
+
+        q.enqueue(10);
+        q.enqueue(20);
+        q.enqueue(30);
+        q.enqueue(40);
+
+        q.display();
+
+        System.out.println("Dequeued: " + q.dequeue());
+        System.out.println("Dequeued: " + q.dequeue());
+
+        q.display();
+
+        q.enqueue(50);
+        q.enqueue(60);
+        q.enqueue(70); // will wrap around circularly
+
+        q.display();
+
+        System.out.println("Peek: " + q.peek());
+    }
+}
+
+```
