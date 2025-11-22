@@ -1,4 +1,6 @@
+# LinkedList all functions
 
+```java
 import java.util.*;
 
 public class Main {
@@ -129,3 +131,4 @@ public static class ll{
         l.display();
     }
 }
+```
